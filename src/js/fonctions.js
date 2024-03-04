@@ -8,3 +8,4 @@ export function doNothing() {
 export function doAlsoNothing() {
     // cette fonction ne fait rien non plus.
  }
+ef
