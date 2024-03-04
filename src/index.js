@@ -4,7 +4,7 @@ import niveau1 from "/src/js/niveau1.js";
 import niveau2 from "/src/js/niveau2.js";
 import niveau3 from "/src/js/niveau3.js";
 
-// configuration générale du jeu
+// configuration générale du jeu haha
 var config = {
   type: Phaser.AUTO,
   width: 800, // largeur en pixels
