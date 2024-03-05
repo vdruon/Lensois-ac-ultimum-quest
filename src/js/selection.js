@@ -2,13 +2,18 @@
 var player;
 var groupe_plateformes;
 var clavier;
+var boutonFeu ; // bouton pour tirer
+var groupeBullets; // groupe de ballon pour gerer l'ensemble
 
 export default class selection extends Phaser.Scene {
  
     constructor() {
        super({key : "selection"}); // mettre le meme nom que le nom de la classe
     }
-  
+
+    
+    
+    
   
   /***********************************************************************/
   /** FONCTION PRELOAD 
@@ -35,9 +40,10 @@ export default class selection extends Phaser.Scene {
     this.load.image("img_etoile", "src/assets/star.png");
     this.load.image("img_bombe", "src/assets/bomb.png");
     this.load.image("img_gameover", "src/assets/fin.avif");
-    this.load.image('img_porte1', 'assets/door1.png');
-    this.load.image('img_porte2', 'assets/door2.png');
-    this.load.image('img_porte3', 'assets/door3.png'); 
+    this.load.image('img_porte1', 'src/assets/door1.png');
+    this.load.image('img_porte2', 'src/assets/door2.png');
+    this.load.image('img_porte3', 'src/assets/door3.png'); 
+    this.load.image("bullet", "src/assets/ballon.png");
     
   }
   
@@ -63,8 +69,11 @@ export default class selection extends Phaser.Scene {
     player = this.physics.add.sprite(100, 450, 'img_perso'); 
     player.setCollideWorldBounds(true);   
     this.physics.add.collider(player, groupe_plateformes);
+    player.direction = 'right'; //direction du joueur
+    groupeBullets = this.physics.add.group(); 
     
     clavier = this.input.keyboard.createCursorKeys();
+    boutonFeu = this.input.keyboard.addKey('A'); // affectation de la touche A à boutonFeu
     this.porte1 = this.physics.add.staticSprite(600, 414, "img_porte1");
     this.porte2 = this.physics.add.staticSprite(50, 264, "img_porte2");
     this.porte3 = this.physics.add.staticSprite(750, 234, "img_porte3");
@@ -109,6 +118,15 @@ export default class selection extends Phaser.Scene {
       frameRate: 1
     }); 
 
+    this.anims.create({
+      key: "anim_tire_droite",
+      frames: [{ key: "img_perso2", frame: 9 }],
+      frameRate: 1000,
+      repeat: -1
+    }); 
+
+
+
     player.setCollideWorldBounds(true);
       player.body.onWorldBounds = true; 
 
@@ -125,6 +143,19 @@ export default class selection extends Phaser.Scene {
         },
         this
       ); 
+
+    // instructions pour les objets surveillés en bord de monde
+    this.physics.world.on("worldbounds", function(body) {
+    // on récupère l'objet surveillé
+    var objet = body.gameObject;
+    // s'il s'agit d'une balle
+    if (groupeBullets.contains(objet)) {
+      // on le détruit
+      objet.destroy();
+    }
+    });
+    
+      
   
    
   }
@@ -137,43 +168,64 @@ export default class selection extends Phaser.Scene {
     
     if (clavier.right.isDown ) {
         player.setVelocityX(160);
+        player.direction = 'right';
         if( player.body.touching.down){
           player.anims.play("anim_tourne_droite", true);
         }
-    } 
-     
-    else if ( clavier.left.isDown  ) {
-      player.setVelocityX(-160)
+    } else if ( clavier.left.isDown  ) {
+      player.setVelocityX(-160);
+      player.direction = 'left';
       if( player.body.touching.down){
         player.anims.play("anim_tourne_gauche", true);
       }
-    }
-      else {
+    } else {
       player.setVelocityX(0);
       player.anims.play('anim_face');
     } 
   
     if (clavier.up.isDown && player.body.touching.down) {
-      player.setVelocityY(-330)
-      //player.anims.play("anim_saute_gauche", true);
+      player.setVelocityY(-330);
    }
 
    if (!player.body.touching.down ) {
     if (clavier.right.isDown) {
       player.anims.play("anim_saute_droite", true);
-    } else if (clavier.left.isDown){
+      player.direction = 'right';
+    } else if (clavier.left.isDown) {
       player.anims.play("anim_saute_gauche", true);
+      player.direction = 'left';
     }
-  }
+    } 
   
    
-  if (Phaser.Input.Keyboard.JustDown(clavier.space) == true) {
-    if (this.physics.overlap(player, this.porte1)) this.scene.start("niveau1");
-    if (this.physics.overlap(player, this.porte2)) this.scene.start("niveau2");
-    if (this.physics.overlap(player, this.porte3)) this.scene.start("niveau3");
-    if (this.physics.overlap(player, this.porte4)) this.scene.start("niveau4");
-  } 
+    if (Phaser.Input.Keyboard.JustDown(clavier.space) == true) {
+      if (this.physics.overlap(player, this.porte1)) this.scene.start("niveau1");
+      if (this.physics.overlap(player, this.porte2)) this.scene.start("niveau2");
+      if (this.physics.overlap(player, this.porte3)) this.scene.start("niveau3");
+     if (this.physics.overlap(player, this.porte4)) this.scene.start("niveau4");
+   } 
+
+   if ( Phaser.Input.Keyboard.JustDown(boutonFeu)) {
+    tirer(player);
+    player.anims.play("anim_tire_droite", true);
+    } 
   }
 
+  
 
+
+
+}
+
+//fonction tirer( ), prenant comme paramètre l'auteur du tir
+function tirer(player) {
+  var coefDir;
+  if (player.direction == 'left') { coefDir = -1; } else { coefDir = 1 }
+  // on crée la balle a coté du joueur
+  var bullet = groupeBullets.create(player.x + (25 * coefDir), player.y +10, 'bullet');
+  // parametres physiques de la balle.
+  bullet.setCollideWorldBounds(true);
+  bullet.body.onWorldBounds = true;
+  bullet.body.allowGravity =false;
+  bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
 }
