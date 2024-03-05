@@ -234,7 +234,7 @@ export default class selection extends Phaser.Scene {
       }
       setTimeout(function() {
         joueurTire=false
-      }, 500);
+      }, 300);
     
     } 
   }
