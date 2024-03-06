@@ -34,6 +34,7 @@ export default class selection extends Phaser.Scene {
       frameWidth: 58,
       frameHeight: 63,
     });
+
     this.load.spritesheet("img_perso2", "src/assets/foot2.png", {
       frameWidth: 58,
       frameHeight: 63,
@@ -61,6 +62,8 @@ export default class selection extends Phaser.Scene {
    */
    create() {
   
+    
+
     this.add.image(400, 300, "img_ciel");
     groupe_plateformes = this.physics.add.staticGroup();
     groupe_plateformes.create(200, 584, "img_plateforme");
@@ -163,6 +166,8 @@ export default class selection extends Phaser.Scene {
       objet.destroy();
     }
     });
+
+     
     
       
   
@@ -257,3 +262,5 @@ function tirer(player) {
   bullet.body.allowGravity =false;
   bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
 }
+
+
