@@ -4,6 +4,8 @@ var groupe_plateformes;
 var clavier;
 var boutonFeu ; // bouton pour tirer
 var groupeBullets; // groupe de ballon pour gerer l'ensemble
+var joueurTire=false;
+
 
 export default class selection extends Phaser.Scene {
  
@@ -121,9 +123,16 @@ export default class selection extends Phaser.Scene {
     this.anims.create({
       key: "anim_tire_droite",
       frames: [{ key: "img_perso2", frame: 9 }],
-      frameRate: 1000,
-      repeat: -1
+      frameRate: 1,
+      repeat : -1
     }); 
+
+    this.anims.create({
+      key: "anim_tire_gauche",
+      frames: [{ key: "img_perso", frame: 9 }],
+      frameRate: 1,
+      repeat : -1
+    });
 
 
 
@@ -169,18 +178,24 @@ export default class selection extends Phaser.Scene {
     if (clavier.right.isDown ) {
         player.setVelocityX(160);
         player.direction = 'right';
-        if( player.body.touching.down){
-          player.anims.play("anim_tourne_droite", true);
+        if (joueurTire==false) {
+          if( player.body.touching.down){
+            player.anims.play("anim_tourne_droite", true);
+          }
         }
     } else if ( clavier.left.isDown  ) {
-      player.setVelocityX(-160);
-      player.direction = 'left';
-      if( player.body.touching.down){
-        player.anims.play("anim_tourne_gauche", true);
-      }
+        player.setVelocityX(-160);
+        player.direction = 'left';
+        if (joueurTire==false) {
+          if( player.body.touching.down){
+            player.anims.play("anim_tourne_gauche", true);
+          }
+        }
     } else {
       player.setVelocityX(0);
-      player.anims.play('anim_face');
+      if (joueurTire==false) {
+        player.anims.play('anim_face');
+      }
     } 
   
     if (clavier.up.isDown && player.body.touching.down) {
@@ -189,10 +204,14 @@ export default class selection extends Phaser.Scene {
 
    if (!player.body.touching.down ) {
     if (clavier.right.isDown) {
-      player.anims.play("anim_saute_droite", true);
+      if (joueurTire==false) {
+        player.anims.play("anim_saute_droite", true);
+      }
       player.direction = 'right';
     } else if (clavier.left.isDown) {
-      player.anims.play("anim_saute_gauche", true);
+      if (joueurTire==false) {
+        player.anims.play("anim_saute_gauche", true);
+      }
       player.direction = 'left';
     }
     } 
@@ -206,8 +225,17 @@ export default class selection extends Phaser.Scene {
    } 
 
    if ( Phaser.Input.Keyboard.JustDown(boutonFeu)) {
-    tirer(player);
-    player.anims.play("anim_tire_droite", true);
+      joueurTire=true;
+      tirer(player);
+      if (player.direction=='right'){
+        player.anims.play("anim_tire_droite", true);
+      } else {
+        player.anims.play("anim_tire_gauche", true);
+      }
+      setTimeout(function() {
+        joueurTire=false
+      }, 300);
+    
     } 
   }
 
