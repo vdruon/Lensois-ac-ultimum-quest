@@ -46,9 +46,55 @@ export default class niveau2 extends Phaser.Scene {
     e1.setScale(0.3);
     var e2 = cibles.create(500, 200, "elchapo");
     e2.setScale(0.3);
-    var e3 = cibles.create(600, 200, "elchapo");
+    var e3 = cibles.create(600, 50, "elchapo");
     e3.setScale(0.3);
-
+    var e4 = cibles.create(250, 50, "elchapo");
+    e4.setScale(0.3);
+    var e5 = cibles.create(775, 100, "elchapo");
+    e5.setScale(0.3);
+    var e6 = cibles.create(705, 300, "elchapo");
+    e6.setScale(0.3);
+    var e7 = cibles.create(850, 300, "elchapo");
+    e7.setScale(0.3);
+    var e8 = cibles.create(1325, 50, "elchapo");
+    e8.setScale(0.3);
+    var e9 = cibles.create(1300, 300, "elchapo");
+    e9.setScale(0.3);
+    var e10 = cibles.create(1190, 400, "elchapo");
+    e10.setScale(0.3);
+    var e11 = cibles.create(1600, 400, "elchapo");
+    e11.setScale(0.3);
+    var e12 = cibles.create(1750, 400, "elchapo");
+    e12.setScale(0.3);
+    var e13 = cibles.create(1950, 400, "elchapo");
+    e13.setScale(0.3);
+    var e14 = cibles.create(1825, 50, "elchapo");
+    e14.setScale(0.3);
+    var e15 = cibles.create(2025, 50, "elchapo");
+    e15.setScale(0.3);
+    var e16 = cibles.create(2200, 400, "elchapo");
+    e16.setScale(0.3);
+    var e17 = cibles.create(2275, 50, "elchapo");
+    e17.setScale(0.3);
+    var e18 = cibles.create(2350, 400, "elchapo");
+    e18.setScale(0.3);
+    var e19 = cibles.create(2600, 10, "elchapo");
+    e19.setScale(0.3);
+    var e20 = cibles.create(2600, 400, "elchapo");
+    e20.setScale(0.3);
+    var e21 = cibles.create(2680, 10, "elchapo");
+    e21.setScale(0.3);
+    var e22 = cibles.create(2600, 400, "elchapo");
+    e22.setScale(0.3);
+    var e22 = cibles.create(2680, 400, "elchapo");
+    e22.setScale(0.3);
+    var e23 = cibles.create(2800, 400, "elchapo");
+    e23.setScale(0.3);
+    var e24 = cibles.create(2850, 25, "elchapo");
+    e24.setScale(0.3);
+    var e25 = cibles.create(3080, 25, "elchapo");
+    e25.setScale(0.3);
+    var e26 = cibles.create(3150, 25, "elchapo");
 
 
 
