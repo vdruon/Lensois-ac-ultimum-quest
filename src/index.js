@@ -31,4 +31,4 @@ var config = {
 
 // création et lancement du jeu
 var game = new Phaser.Game(config);
-game.scene.start("niveau1");
+game.scene.start("selection");
