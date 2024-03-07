@@ -1,6 +1,8 @@
 
 import * as fct from "/src/js/selection.js";
 import selection from "/src/js/selection.js";
+import niveau2 from "/src/js/niveau2.js";
+
 var player;
 var boutonFeu;
 var groupeBullets;
@@ -8,6 +10,9 @@ var groupeHache;
 var groupeCibles;
 var cible;
 var joueurTire=false;
+var compteur = 0;
+    var fin = 7;
+
 
 
 
@@ -16,6 +21,7 @@ export default class niveau1 extends Phaser.Scene {
     super({
       key: "niveau1"
     });
+   
   }
 
   preload() {
@@ -29,12 +35,75 @@ export default class niveau1 extends Phaser.Scene {
       frameWidth: 160,
       frameHight:190
     });
-   this.load.image("hache","src/assets/hachegauche.png"); 
+   this.load.image("hache","src/assets/hachegauche.png");
+   this.load.image("porte_retour","src/assets/door1.png");
+   this.load.spritesheet("img_perso", "src/assets/foot.png", {
+    frameWidth: 58,
+    frameHeight: 63,
+  });
+
+  this.load.spritesheet("img_perso2", "src/assets/foot2.png", {
+    frameWidth: 58,
+    frameHeight: 63,
+  });
+
+   
+   
+  
    
   }
 
   create() {
-    var compteur = 0;
+
+    this.anims.create({
+      key: "anim_tourne_gauche", // key est le nom de l'animation : doit etre unique poru la scene.
+      frames: this.anims.generateFrameNumbers("img_perso", { start: 1, end: 3 }), // on prend toutes les frames de img perso numerotées de 0 à 3
+      frameRate: 7, // vitesse de défilement des frames
+      repeat: -1 // nombre de répétitions de l'animation. -1 = infini
+    }); 
+    
+    this.anims.create({
+      key: "anim_tourne_droite", // key est le nom de l'animation : doit etre unique poru la scene.
+      frames: this.anims.generateFrameNumbers("img_perso2", { start: 1, end: 3 }), // on prend toutes les frames de img perso numerotées de 0 à 3
+      frameRate: 7, // vitesse de défilement des frames
+      repeat: -1 // nombre de répétitions de l'animation. -1 = infini
+    }); 
+    
+    // creation de l'animation "anim_tourne_face" qui sera jouée sur le player lorsque ce dernier n'avance pas.
+    this.anims.create({
+      key: "anim_face",
+      frames: [{ key: "img_perso", frame: 0 }],
+      frameRate: 20,
+      repeat: -1
+    }); 
+
+    this.anims.create({
+      key: "anim_saute_droite",
+      frames: [{ key: "img_perso2", frame: 8 }],
+      frameRate: 1
+    }); 
+
+    this.anims.create({
+      key: "anim_saute_gauche",
+      frames: [{ key: "img_perso", frame: 8 }],
+      frameRate: 1
+    }); 
+
+    this.anims.create({
+      key: "anim_tire_droite",
+      frames: [{ key: "img_perso2", frame: 9 }],
+      frameRate: 1,
+      repeat : -1
+    }); 
+
+    this.anims.create({
+      key: "anim_tire_gauche",
+      frames: [{ key: "img_perso", frame: 9 }],
+      frameRate: 1,
+      repeat : -1
+    });
+    // this.add.image(100, 100, 'porte_retour').setDepth(1);
+    
     this.player = this.physics.add.sprite(100, 100, "img_perso");
     this.player.scale = 0.7;
     this.player.setDepth(2);
@@ -101,27 +170,28 @@ export default class niveau1 extends Phaser.Scene {
      
 
     
-
+   
     cible = this.physics.add.group();
     var e1 = cible.create(200, 40, "cible");
     e1.setScale(0.5);
-    compteur = compteur+1;
+    
+    
 
     
 
     var e2 = cible.create(1075, 44, "cible");
     e2.setScale(0.5);
-    compteur = compteur+1;
+   
   
     var e3 = cible.create(700, 44, "cible");
     e3.setScale(0.5);
-    compteur = compteur+1;
+    
     
     slideTargetX.call(this, e3, 700, 900, 2000);
     
     var e4 = cible.create(2000, 40, "cible");
     e4.setScale(0.5);
-    compteur = compteur+1;
+    
 
 
 
@@ -142,7 +212,7 @@ export default class niveau1 extends Phaser.Scene {
 
     var e7 = cible.create(2500, 200, "cible");
     e7.setScale(0.5);
-    compteur = compteur+1;
+    
 
     slideTargetX.call(this, e7, 2500, 2800, 2000);
 
@@ -164,15 +234,15 @@ export default class niveau1 extends Phaser.Scene {
     this.physics.add.collider(groupeBullets, cible, function(bullet, cible){
       bullet.destroy();
       cible.destroy();
-      compteur = compteur - 1;
+      compteur++;
+      
 
 
 
 
     });
 
-   
-
+  
     this.physics.add.collider(groupeHache, this.player);
     this.physics.add.collider(groupeHache, TileLayer_1, function(hache, groupe_plateformes){
       hache.destroy();
@@ -195,7 +265,7 @@ export default class niveau1 extends Phaser.Scene {
     this.cameras.main.startFollow(this.player); 
 
    
-     
+  
      
 
   }
@@ -263,15 +333,25 @@ export default class niveau1 extends Phaser.Scene {
 
    
 
-    if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true && compteur == 0) {
-      if (this.physics.overlap(this.player, this.porte_retour)) {
-        this.scene.switch("selection");
-      }
+    // if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true ) {
+    //   if (this.physics.overlap(this.player, this.porte_retour)) {
+    //     this.scene.switch("niveau2");
+    //   }
+    // }
+
+    if (this.player.x >= this.physics.world.bounds.width-40) {
+      
+      this.scene.start("selection");
     }
+
+    
+   
+
+
+
   }
  
-  
-
+ 
    
   
 }
