@@ -83,7 +83,7 @@ export default class selection extends Phaser.Scene {
     this.porte1 = this.physics.add.staticSprite(600, 414, "img_porte1");
     this.porte2 = this.physics.add.staticSprite(50, 264, "img_porte2");
     this.porte3 = this.physics.add.staticSprite(750, 234, "img_porte3");
-    this.porte4 = this.physics.add.staticSprite(600, 234, "img_porte3");
+    
    
   
     // dans cette partie, on crée les animations, à partir des spritesheet

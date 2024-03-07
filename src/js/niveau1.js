@@ -170,7 +170,7 @@ export default class niveau1 extends Phaser.Scene {
     this.physics.add.collider(groupeBullets, cible, function(bullet, cible){
       bullet.destroy();
       cible.destroy();
-      compteur++;
+      
       
 
 
@@ -179,20 +179,11 @@ export default class niveau1 extends Phaser.Scene {
     });
 
   
-    this.physics.add.collider(groupeHache, this.player);
-    this.physics.add.collider(groupeHache, TileLayer_1, function(hache, groupe_plateformes){
-      hache.destroy();
-    });
-    this.physics.add.collider(groupeHache, TileLayer_2, function(hache, groupe_plateformes){
-      hache.destroy();
-    });
-    this.physics.add.collider(groupeHache, TileLayer_3, function(hache, groupe_plateformes){
-      hache.destroy();
-    });
+    
   
 
     this.physics.add.overlap(groupeBullets, cible, hitCible, null, this);
-    this.physics.add.overlap(groupeHache, this.player, hitPlayer, null, this);
+
     this.physics.add.overlap(this.player, cible, restartOnCollision, null, this);
 
    
@@ -200,7 +191,7 @@ export default class niveau1 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 3200, 640);
     this.cameras.main.startFollow(this.player); 
 
-    this.porte_retour.setDepth(1);
+   
 
    
   
@@ -272,9 +263,7 @@ export default class niveau1 extends Phaser.Scene {
       destroyBulletsOnScreenEdge.call(this, bullet);
     });
 
-    groupeHache.getChildren().forEach(bullet => {
-      destroyBulletsOnScreenEdge.call(this, bullet);
-    });
+    
    
     checkPlayerPosition.call(this);
 
@@ -327,14 +316,7 @@ function hitCible(bullet, cible) {
   cible.destroy();
 }
 
-function hitPlayer(bullet, player) {
-  bullet.destroy();
-  // Vérifie si le joueur existe avant d'appeler jumpTarget
-  if (player) {
-      jumpTarget(player, 300);
-  }
-  this.scene.restart();
-}
+
 
 
 function checkPlayerPosition() {
