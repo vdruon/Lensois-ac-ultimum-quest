@@ -23,6 +23,7 @@ export default class niveau2 extends Phaser.Scene {
       frameWidth: 105,
       frameHeight: 108,
     });
+    this.load.image("porte", "src/assets/door2.png")
 
     // charger les tuiles de jeu
     this.load.image("fond1", "src/assets/MapJungle/fond-1.png");
@@ -39,6 +40,8 @@ export default class niveau2 extends Phaser.Scene {
   }
 
   create() {
+
+    this.porte_retour = this.physics.add.staticSprite(3175, 350, "porte");
 
     //gerer les elchapo
     cibles = this.physics.add.group();
@@ -237,6 +240,7 @@ export default class niveau2 extends Phaser.Scene {
 
     this.player.setDepth(2);
     cibles.setDepth(1);
+    this.porte_retour.setDepth(1);
     this.player.setCollideWorldBounds(true);
 
     // instructions pour les objets surveillés en bord de monde
@@ -254,6 +258,12 @@ export default class niveau2 extends Phaser.Scene {
 
 
   update() {
+
+    if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true) {
+      if (this.physics.overlap(this.player, this.porte_retour)) {
+        this.scene.switch("selection");
+        }
+    } 
 
     if (this.clavier.right.isDown) {
       this.player.setVelocityX(100);
