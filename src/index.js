@@ -5,6 +5,9 @@ import niveau2 from "/src/js/niveau2.js";
 import niveau3 from "/src/js/niveau3.js";
 //import Accueil from "/src/js/Accueil.js";
 
+
+
+
 // configuration générale du jeu haha
 var config = {
   type: Phaser.AUTO,

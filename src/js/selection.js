@@ -47,7 +47,7 @@ export default class selection extends Phaser.Scene {
     this.load.image('img_porte2', 'src/assets/door2.png');
     this.load.image('img_porte3', 'src/assets/door3.png'); 
     this.load.image("bullet", "src/assets/ballon.png");
-    
+    this.load.image("accueil", "src/assets/Accueil2.png");
   }
   
   /***********************************************************************/
@@ -64,7 +64,8 @@ export default class selection extends Phaser.Scene {
   
     
 
-    this.add.image(400, 300, "img_ciel");
+    
+    this.add.image("accueil");
     groupe_plateformes = this.physics.add.staticGroup();
     groupe_plateformes.create(200, 584, "img_plateforme");
     groupe_plateformes.create(600, 584, "img_plateforme"); 
@@ -82,7 +83,7 @@ export default class selection extends Phaser.Scene {
     this.porte1 = this.physics.add.staticSprite(600, 414, "img_porte1");
     this.porte2 = this.physics.add.staticSprite(50, 264, "img_porte2");
     this.porte3 = this.physics.add.staticSprite(750, 234, "img_porte3");
-    this.porte4 = this.physics.add.staticSprite(600, 234, "img_porte3");
+    
    
   
     // dans cette partie, on crée les animations, à partir des spritesheet
