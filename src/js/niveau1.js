@@ -10,10 +10,7 @@ var groupeHache;
 var groupeCibles;
 var cible;
 var joueurTire=false;
-var compteur = 0;
-    var fin = 7;
-
-
+var porte;
 
 
 export default class niveau1 extends Phaser.Scene {
@@ -35,75 +32,12 @@ export default class niveau1 extends Phaser.Scene {
       frameWidth: 160,
       frameHight:190
     });
-   this.load.image("hache","src/assets/hachegauche.png");
-   this.load.image("porte_retour","src/assets/door1.png");
-   this.load.spritesheet("img_perso", "src/assets/foot.png", {
-    frameWidth: 58,
-    frameHeight: 63,
-  });
-
-  this.load.spritesheet("img_perso2", "src/assets/foot2.png", {
-    frameWidth: 58,
-    frameHeight: 63,
-  });
-
-   
-   
-  
-   
+   this.load.image("hache","src/assets/hachegauche.png"); 
+   this.load.image("porte","src/assats/door2.png");
   }
 
   create() {
-
-    this.anims.create({
-      key: "anim_tourne_gauche", // key est le nom de l'animation : doit etre unique poru la scene.
-      frames: this.anims.generateFrameNumbers("img_perso", { start: 1, end: 3 }), // on prend toutes les frames de img perso numerotées de 0 à 3
-      frameRate: 7, // vitesse de défilement des frames
-      repeat: -1 // nombre de répétitions de l'animation. -1 = infini
-    }); 
-    
-    this.anims.create({
-      key: "anim_tourne_droite", // key est le nom de l'animation : doit etre unique poru la scene.
-      frames: this.anims.generateFrameNumbers("img_perso2", { start: 1, end: 3 }), // on prend toutes les frames de img perso numerotées de 0 à 3
-      frameRate: 7, // vitesse de défilement des frames
-      repeat: -1 // nombre de répétitions de l'animation. -1 = infini
-    }); 
-    
-    // creation de l'animation "anim_tourne_face" qui sera jouée sur le player lorsque ce dernier n'avance pas.
-    this.anims.create({
-      key: "anim_face",
-      frames: [{ key: "img_perso", frame: 0 }],
-      frameRate: 20,
-      repeat: -1
-    }); 
-
-    this.anims.create({
-      key: "anim_saute_droite",
-      frames: [{ key: "img_perso2", frame: 8 }],
-      frameRate: 1
-    }); 
-
-    this.anims.create({
-      key: "anim_saute_gauche",
-      frames: [{ key: "img_perso", frame: 8 }],
-      frameRate: 1
-    }); 
-
-    this.anims.create({
-      key: "anim_tire_droite",
-      frames: [{ key: "img_perso2", frame: 9 }],
-      frameRate: 1,
-      repeat : -1
-    }); 
-
-    this.anims.create({
-      key: "anim_tire_gauche",
-      frames: [{ key: "img_perso", frame: 9 }],
-      frameRate: 1,
-      repeat : -1
-    });
-    // this.add.image(100, 100, 'porte_retour').setDepth(1);
-    
+    var compteur = 0;
     this.player = this.physics.add.sprite(100, 100, "img_perso");
     this.player.scale = 0.7;
     this.player.setDepth(2);
@@ -113,6 +47,8 @@ export default class niveau1 extends Phaser.Scene {
     this.physics.add.collider(this.player, this.groupe_plateformes);
 
     this.player.direction = 'right';
+
+
 
     
 
@@ -264,6 +200,8 @@ export default class niveau1 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 3200, 640);
     this.cameras.main.startFollow(this.player); 
 
+    this.porte_retour.setDepth(1);
+
    
   
      
@@ -271,6 +209,13 @@ export default class niveau1 extends Phaser.Scene {
   }
 
   update() {
+
+    if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true) {
+      if (this.physics.overlap(this.player, this.porte_retour)) {
+        this.scene.switch("selection");
+        }
+    } 
+
     if (this.clavier.left.isDown) {
       this.player.direction = 'left';
       this.player.setVelocityX(-160);
@@ -314,6 +259,8 @@ export default class niveau1 extends Phaser.Scene {
       }, 300);
 
     } 
+
+    
 
   
 
@@ -371,15 +318,7 @@ function tirer(player) {
   bullet.setVelocity(1000 * coefDir, 0); // vitesse en x et en y
 }
 
-function tirer2(cible) {
-  var hache = groupeHache.create(cible.x + (25 * -1), cible.y +10, 'hache');
-  // parametres physiques de la balle.
-  hache.setCollideWorldBounds(true);
-  hache.body.onWorldBounds = true;
-  hache.body.allowGravity =false;
-  hache.setVelocity(400 * -1, 0); // vitesse en x et en y
-  
-}
+
 
 
 
