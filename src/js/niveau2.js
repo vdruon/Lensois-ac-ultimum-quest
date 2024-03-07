@@ -43,15 +43,15 @@ export default class niveau2 extends Phaser.Scene {
     //gerer les elchapo
     cibles = this.physics.add.group();
     var e1 = cibles.create(300, 200, "elchapo");
-    e1.setScale(0.3);
+    e1.setScale(0.5);
     var e2 = cibles.create(500, 200, "elchapo");
-    e2.setScale(0.3);
+    e2.setScale(0.5);
     var e3 = cibles.create(600, 50, "elchapo");
-    e3.setScale(0.3);
+    e3.setScale(0.5);
     var e4 = cibles.create(250, 50, "elchapo");
-    e4.setScale(0.3);
+    e4.setScale(0.5);
     var e5 = cibles.create(775, 100, "elchapo");
-    e5.setScale(0.3);
+    e5.setScale(0.5);
     var e6 = cibles.create(705, 300, "elchapo");
     e6.setScale(0.3);
     var e7 = cibles.create(850, 300, "elchapo");

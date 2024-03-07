@@ -289,7 +289,7 @@ function tirer2(cible) {
   hache.setCollideWorldBounds(true);
   hache.body.onWorldBounds = true;
   hache.body.allowGravity =true;
-  hache.setVelocity(400 * -1, 0); // vitesse en x et en y
+  hache.setVelocity(400 * -1, 5   ); // vitesse en x et en y
   
 }
 
