@@ -1,6 +1,6 @@
 
-import * as fct from "/src/js/fonctions.js";
-
+import * as fct from "/src/js/selection.js";
+import selection from "/src/js/selection.js";
 var player;
 var boutonFeu;
 var groupeBullets;
@@ -8,6 +8,8 @@ var groupeHache;
 var groupeCibles;
 var cible;
 var joueurTire=false;
+var porte;
+
 
 
 export default class niveau1 extends Phaser.Scene {
@@ -29,9 +31,16 @@ export default class niveau1 extends Phaser.Scene {
       frameHight:190
     });
    this.load.image("hache","src/assets/hachegauche.png"); 
+   this.load.image("porte", "src/assets/door2.png")
+   
   }
 
   create() {
+
+    this.porte_retour = this.physics.add.staticSprite(3175, 400, "porte");
+    
+
+    var compteur = 0;
     this.player = this.physics.add.sprite(100, 100, "img_perso");
     this.player.scale = 0.7;
     this.player.setDepth(2);
@@ -41,6 +50,8 @@ export default class niveau1 extends Phaser.Scene {
     this.physics.add.collider(this.player, this.groupe_plateformes);
 
     this.player.direction = 'right';
+
+
 
     
 
@@ -101,30 +112,30 @@ export default class niveau1 extends Phaser.Scene {
     cible = this.physics.add.group();
     var e1 = cible.create(200, 40, "cible");
     e1.setScale(0.5);
+    compteur = compteur+1;
 
     
 
     var e2 = cible.create(1075, 44, "cible");
     e2.setScale(0.5);
+    compteur = compteur+1;
   
     var e3 = cible.create(700, 44, "cible");
     e3.setScale(0.5);
+    compteur = compteur+1;
     
     slideTargetX.call(this, e3, 700, 900, 2000);
     
     var e4 = cible.create(2000, 40, "cible");
     e4.setScale(0.5);
+    compteur = compteur+1;
 
 
 
     var e5 = cible.create(1700, 44, "cible");
     e5.setScale(0.5);
-    tirer2(e5);
-
-    setInterval(() => {
-      tirer2(e5);
-  }, 1000);
-
+    compteur = compteur+1;
+    
     
     setInterval(() => {
       jumpTarget(e5, 300);
@@ -133,11 +144,13 @@ export default class niveau1 extends Phaser.Scene {
 
     var e6 = cible.create(2500, 44, "cible");
     e6.setScale(0.5);
+    compteur = compteur+1;
 
     
 
     var e7 = cible.create(2500, 200, "cible");
     e7.setScale(0.5);
+    compteur = compteur+1;
 
     slideTargetX.call(this, e7, 2500, 2800, 2000);
 
@@ -160,11 +173,14 @@ export default class niveau1 extends Phaser.Scene {
     this.physics.add.collider(groupeBullets, cible, function(bullet, cible){
       bullet.destroy();
       cible.destroy();
+      compteur = compteur - 1;
 
 
 
 
     });
+
+   
 
     this.physics.add.collider(groupeHache, this.player);
     this.physics.add.collider(groupeHache, TileLayer_1, function(hache, groupe_plateformes){
@@ -186,6 +202,8 @@ export default class niveau1 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 3200, 640);
     this.cameras.main.startFollow(this.player); 
 
+    this.porte_retour.setDepth(1);
+
    
      
      
@@ -193,6 +211,13 @@ export default class niveau1 extends Phaser.Scene {
   }
 
   update() {
+
+    if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true) {
+      if (this.physics.overlap(this.player, this.porte_retour)) {
+        this.scene.switch("selection");
+        }
+    } 
+
     if (this.clavier.left.isDown) {
       this.player.direction = 'left';
       this.player.setVelocityX(-160);
@@ -237,6 +262,8 @@ export default class niveau1 extends Phaser.Scene {
 
     } 
 
+    
+
   
 
     if (Phaser.Input.Keyboard.JustDown(boutonFeu)) {
@@ -253,9 +280,9 @@ export default class niveau1 extends Phaser.Scene {
    
     checkPlayerPosition.call(this);
 
+   
 
-
-    if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true) {
+    if (Phaser.Input.Keyboard.JustDown(this.clavier.space) == true && compteur == 0) {
       if (this.physics.overlap(this.player, this.porte_retour)) {
         this.scene.switch("selection");
       }

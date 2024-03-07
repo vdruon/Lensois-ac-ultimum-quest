@@ -241,6 +241,7 @@ export default class selection extends Phaser.Scene {
         joueurTire=false
       }, 300);
     
+      
     } 
   }
 

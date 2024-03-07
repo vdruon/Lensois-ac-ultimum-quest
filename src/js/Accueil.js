@@ -1,11 +1,18 @@
-class menu extends Phaser.Scene {
+
+import selection from "/src/js/selection.js";
+import niveau1 from "/src/js/niveau1.js";
+import niveau2 from "/src/js/niveau2.js";
+import niveau3 from "/src/js/niveau3.js";
+
+
+export default class menu extends Phaser.Scene {
     constructor() {
-      super({ key: "Accueil" });
+      super({ key: "menu" });
     }
     //on charge les images
     preload() {
-      this.load.image("menu_fond", "src/assts/Accueil.png");
-      this.load.image("imageBoutonPlay", "src/assets/play.jpg");
+      this.load.image("menu_fond", "src/assets/Accueil2.png");
+      this.load.image("imageBoutonPlay", "src/assets/boutonjouer.png");
     }
   
     create() {
@@ -16,7 +23,7 @@ class menu extends Phaser.Scene {
         .setDepth(0);
   
       //on ajoute un bouton de clic, nommé bouton_play
-      var bouton_play = this.add.image(300, 450, "imageBoutonPlay").setDepth(1);
+      var bouton_play = this.add.image(415, 265, "imageBoutonPlay").setDepth(1).setScale(1.7);
      
       //=========================================================
       //on rend le bouton interratif
@@ -36,7 +43,7 @@ class menu extends Phaser.Scene {
       //Cas ou la sourris clique sur le bouton play :
       // on lance le niveau 1
       bouton_play.on("pointerup", () => {
-        this.scene.start("niveau 1");
+        this.scene.start("niveau1");
       });
     }
 
