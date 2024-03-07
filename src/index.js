@@ -6,6 +6,8 @@ import niveau3 from "/src/js/niveau3.js";
 import menu from "/src/js/Accueil.js";
 
 
+
+
 // configuration générale du jeu haha
 var config = {
   type: Phaser.AUTO,
@@ -32,4 +34,4 @@ var config = {
 
 // création et lancement du jeu
 var game = new Phaser.Game(config);
-game.scene.start("niveau1");
+game.scene.start("Accueil");
