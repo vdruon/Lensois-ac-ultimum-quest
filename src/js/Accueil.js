@@ -1,10 +1,10 @@
-class menu extends Phaser.Scene {
+export default class menu extends Phaser.Scene {
     constructor() {
-      super({ key: "Accueil" });
+      super({ key: "menu" });
     }
     //on charge les images
     preload() {
-      this.load.image("menu_fond", "src/assts/Accueil.png");
+      this.load.image("menu_fond", "src/assets/Accueil.png");
       this.load.image("imageBoutonPlay", "src/assets/play.jpg");
     }
   
@@ -24,7 +24,7 @@ class menu extends Phaser.Scene {
   
       //Cas ou la souris passe sur le bouton play
       bouton_play.on("pointerover", () => {
-        
+       
       });
       
       //Cas ou la souris ne passe plus sur le bouton play
@@ -39,5 +39,4 @@ class menu extends Phaser.Scene {
         this.scene.start("niveau 1");
       });
     }
-
   } 

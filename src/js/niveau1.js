@@ -94,6 +94,7 @@ export default class niveau1 extends Phaser.Scene {
     TileLayer_3.setCollisionByProperty({ estSolide: true });
     this.physics.add.collider(this.player, TileLayer_3);
 
+
      
 
     
@@ -119,15 +120,12 @@ export default class niveau1 extends Phaser.Scene {
 
     var e5 = cible.create(1700, 44, "cible");
     e5.setScale(0.5);
-    tirer2(e5);
+   
 
-    setInterval(() => {
-      tirer2(e5);
-  }, 1000);
-
+ 
     
     setInterval(() => {
-      jumpTarget(e5, 300);
+      jumpTarget(e5);
   }, 2000);
 
 
@@ -140,7 +138,6 @@ export default class niveau1 extends Phaser.Scene {
     e7.setScale(0.5);
 
     slideTargetX.call(this, e7, 2500, 2800, 2000);
-
 
     this.physics.add.collider(cible, this.groupe_plateformes);
     this.physics.add.collider(cible, TileLayer_2);
@@ -182,6 +179,7 @@ export default class niveau1 extends Phaser.Scene {
     this.physics.add.overlap(groupeHache, this.player, hitPlayer, null, this);
     this.physics.add.overlap(this.player, cible, restartOnCollision, null, this);
 
+   
     this.physics.world.setBounds(0, 0, 3200, 640);
     this.cameras.main.setBounds(0, 0, 3200, 640);
     this.cameras.main.startFollow(this.player); 
@@ -288,7 +286,7 @@ function tirer2(cible) {
   // parametres physiques de la balle.
   hache.setCollideWorldBounds(true);
   hache.body.onWorldBounds = true;
-  hache.body.allowGravity =true;
+  hache.body.allowGravity =false;
   hache.setVelocity(400 * -1, 0); // vitesse en x et en y
   
 }
@@ -351,11 +349,11 @@ function slideTargetX(target, startX, endX, duration) {
       }
   });
   }
-  function jumpTarget(target, jumpForce) {
+  function jumpTarget(target) {
     // Vérifie d'abord si la cible existe
     if (target) {
         // Applique une impulsion vers le haut à la cible
-        target.setVelocityY(-jumpForce);
+        target.setVelocityY(-300);
     }
 }
  
