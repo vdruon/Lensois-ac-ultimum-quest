@@ -19,7 +19,7 @@ export default class niveau3 extends Phaser.Scene {
       fontSize: "22pt"
     });
 
-    this.porte_retour = this.physics.add.staticSprite(100, 550, "img_porte3");
+    this.porte_retour = this.physics.add.staticSprite(650, 330, "img_porte3");
 
     this.player = this.physics.add.sprite(100, 450, "img_perso");
     this.player.refreshBody();
@@ -27,6 +27,8 @@ export default class niveau3 extends Phaser.Scene {
     this.player.setCollideWorldBounds(true);
     this.clavier = this.input.keyboard.createCursorKeys();
     this.physics.add.collider(this.player, this.groupe_plateformes);
+
+    this.porte_retour.setDepth(-1);
   }
 
   update() {
